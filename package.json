@@ -53,6 +53,9 @@
     "test": "npm run test:unit",
     "test:screenshot": "npx playwright test",
     "test:screenshot:update": "npx playwright test --update-snapshots",
+    "test:export-db": "npm run --silent wp-env -- run tests-cli  wp db export - > ./database-backup-tests-$(date +%Y%m%d).sql",
+    "dev:export-db": "npm run --silent wp-env -- run dev-cli  wp db export - > ./database-backup-dev-$(date +%Y%m%d).sql",
+    "wp-env:cleanup": "npm run wp-env cleanup --force && npm run wp-env start",
     "wp-env": "wp-env"
   }
 }

@@ -39,3 +39,32 @@ npm run test:screenshot
 npm run wp-env start # Unless already running
 npm run test:screenshot:update
 ```
+
+#### Preserving the dev / test database for purposes of collaboration
+
+1. Run `npm build production && npm run test:screenshot:update` to build the production files and run the tests and update the screenshots.
+2. To preserve your test instance pages, menus, and customizer settings:
+
+```shell
+  npm run --silent wp-env -- run tests-cli  wp db export - > ./database-backup-tests-$(date +%Y%m%d).sql
+  # can also use `npm run test:export-db`
+  # preserve this file by: right-click the file in your file tree > reveal in finder > drag it to your Documents folder
+
+# To restore your database from an exported file:
+  npm run wp-env -- run tests-cli bash
+  wp db import wp-content/themes/bcgov-climatefunding/database-backup-tests-{YYMMDD}.sql
+  exit
+```
+
+### DEV version
+
+```shell
+  npm run --silent wp-env -- run dev-cli  wp db export - > ./database-backup-dev-$(date +%Y%m%d).sql
+  # preserve this file by: right-click the file in your file tree > reveal in finder > drag it to your Documents folder
+  # can also use `npm run dev:export-db`
+
+# To restore your database from an exported file:
+  npm run wp-env -- run cli bash
+  wp db import wp-content/themes/design-system-wordpress-child-theme-hporoo/database-backup-dev-{YYMMDD}.sql
+  exit
+```
