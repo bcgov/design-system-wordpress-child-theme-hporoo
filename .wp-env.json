@@ -3,22 +3,23 @@
     "core": "WordPress/WordPress#6.8",
     "phpVersion": "7.4",
     "plugins": [
-        "../../plugins/bcgov-common-plugin",
-        "../../plugins/bcgov-cos-devtest-extras",
         "../../plugins/design-system-wordpress-plugin",
         "../../plugins/wordpress-document-repository",
         "../../plugins/wordpress-search"
     ],
+    "mappings": {
+        "./afterStart.sh": "wp-content/afterStart.sh"
+    },
     "themes": [
-        ".",
+        "bcgov/design-system-wordpress-child-theme-hporoo",
         "../design-system-wordpress-theme"
     ],
     "config": {
-                "WP_DEBUG_DISPLAY": true,
-                "WP_SITEURL": "http://127.0.0.1:8888",
-                "WP_HOME": "http://127.0.0.1:8888"
+        "WP_DEBUG_DISPLAY": true,
+        "WP_SITEURL": "http://127.0.0.1:8888",
+        "WP_HOME": "http://127.0.0.1:8888"
     },
     "lifecycleScripts": {
-        "afterStart": "wp-env run tests-cli sh wp-content/themes/design-system-wordpress-child-theme-hporoo/afterStart.sh && wp-env run cli sh wp-content/themes/design-system-wordpress-child-theme-hporoo/afterStart.sh"
+        "afterStart": "wp-env run cli sh /var/www/html/wp-content/afterStart.sh && wp-env run tests-cli sh /var/www/html/wp-content/afterStart.sh"
     }
 }

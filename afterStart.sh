@@ -10,11 +10,9 @@ wp option update permalink_structure "/%postname%/"
 wp rewrite flush --hard >/dev/null
 
 
-# # Create a stable Home page so the front-page template is used locally.
-HOME_PAGE_ID="$(wp post list --post_type=page --name=home --post_status=publish,draft,pending,future,private --field=ID --format=ids | awk 'NR==1 {print $1}')"
-if [ -z "$HOME_PAGE_ID" ]; then
-	HOME_PAGE_ID="$(wp post create --post_type=page --post_title="Home" --post_name="home" --post_status=publish --porcelain)"
-fi
+# Set up the Home and Posts pages. These pages are expected by the theme to be present and published, and are referenced by the header template and the homepage template parts. The specific page IDs are referenced in the theme templates, so they should not be changed without also updating the templates.
+HOME_PAGE_ID=1292
+POSTS_PAGE_ID=3597
 
 # Keep a stable secondary page for local navigation and manual testing.
 SAMPLE_PAGE_ID="$(wp post list --post_type=page --name=sample-page --post_status=publish,draft,pending,future,private --field=ID --format=ids | awk 'NR==1 {print $1}')"
@@ -25,6 +23,18 @@ fi
 # Set the front page to the Home page.
 wp option update show_on_front page
 wp option update page_on_front "$HOME_PAGE_ID"
+
+# Set General settings
+wp option update blogdescription "Government of British Columbia"
+wp option update timezone_string "America/Vancouver"
+
+# Set Reading settings
+wp option update posts_per_page 10
+wp option update page_for_posts "$POSTS_PAGE_ID"
+wp option update show_on_front page
+wp option update page_on_front "$HOME_PAGE_ID"
+wp option update blog_public 0
+
 
 # Seed the navigation post referenced by the header template.
 # This script is intended to be run in the local environment after the container is up and running. It should be used to perform any necessary setup or configuration that requires the WordPress environment to be active, such as activating the theme, setting up pages, and seeding navigation.
